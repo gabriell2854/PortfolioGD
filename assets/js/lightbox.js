@@ -12,21 +12,22 @@
   function open(src) {
     imgEl.src = src;
     overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
   }
 
   function close() {
     overlay.classList.remove('active');
-    document.body.style.overflow = '';
     imgEl.src = '';
   }
 
-  // Click on any sample-item image
+  // Click on any image inside .sample-item
   document.addEventListener('click', function(e) {
-    var target = e.target.closest('.sample-item img');
-    if (target) {
-      e.preventDefault();
-      open(target.src);
+    var item = e.target.closest('.sample-item');
+    if (item) {
+      var img = item.querySelector('img');
+      if (img) {
+        e.preventDefault();
+        open(img.src);
+      }
     }
   });
 
