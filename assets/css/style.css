@@ -768,7 +768,7 @@ h1 .last-name {
 }
 
 .sample-item img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   border-radius: 8px;
   border: 1px solid var(--border);
