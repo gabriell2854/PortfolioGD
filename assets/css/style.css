@@ -768,7 +768,7 @@ h1 .last-name {
 }
 
 .sample-item img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
   border-radius: 8px;
   border: 1px solid var(--border);
@@ -933,13 +933,13 @@ h1 .last-name {
 }
 
 .lightbox-overlay img {
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 95vw;
+  max-height: 95vh;
   width: auto;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
-  object-fit: contain;
+  object-fit: scale-down;
   cursor: default;
 }
 
