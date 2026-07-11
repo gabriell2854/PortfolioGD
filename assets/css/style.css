@@ -769,6 +769,8 @@ h1 .last-name {
 
 .sample-item img {
   width: 100%;
+  max-height: 280px;
+  object-fit: cover;
   border-radius: 8px;
   border: 1px solid var(--border);
   cursor: pointer;
@@ -911,6 +913,54 @@ h1 .last-name {
 .icon-linkedin {
   width: 15px;
   height: 15px;
+}
+
+/* --- Lightbox --- */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.lightbox-overlay.active {
+  display: flex;
+}
+
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+  object-fit: contain;
+  cursor: default;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+}
+
+.lightbox-close:hover {
+  opacity: 1;
 }
 
 /* --- Utility --- */
