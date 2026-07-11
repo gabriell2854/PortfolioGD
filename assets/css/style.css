@@ -757,7 +757,7 @@ h1 .last-name {
 
 @media (min-width: 768px) {
   .sample-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 
