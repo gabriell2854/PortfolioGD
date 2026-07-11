@@ -757,8 +757,26 @@ h1 .last-name {
 
 @media (min-width: 768px) {
   .sample-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
+}
+
+/* Custom duo layout: one+two stacked */
+.sample-duo {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .sample-duo {
+    grid-template-columns: 1.3fr 1fr;
+  }
+}
+
+.sample-duo-secondary {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .sample-item {
