@@ -762,6 +762,12 @@ h1 .last-name {
   }
 }
 
+@media (min-width: 768px) {
+  .sample-grid-three {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 /* Custom duo layout: one+two stacked */
 .sample-duo {
   display: grid;
