@@ -768,6 +768,16 @@ h1 .last-name {
   }
 }
 
+/* 3-column grid (3x2) — for 4-image samples */
+@media (min-width: 768px) {
+  .sample-grid-three-by-two {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.sample-empty {
+  visibility: hidden;
+}
+
 /* Custom duo layout: one+two stacked */
 .sample-duo {
   display: grid;
