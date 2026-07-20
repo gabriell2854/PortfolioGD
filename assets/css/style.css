@@ -129,13 +129,13 @@ ul {
   font-weight: 500;
 }
 
-/* Hide desktop-only links on mobile */
+/* Adjust mobile nav spacing */
 @media (max-width: 767px) {
   .nav {
     padding: 16px 24px;
   }
-  .nav-desktop {
-    display: none;
+  .nav-links {
+    gap: 16px;
   }
 }
 
