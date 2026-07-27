@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stats Cards — 3 varianty</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Montserrat:wght@300;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #fafafa;
+  color: #17191c;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.625;
+  padding: 40px;
+}
+:root {
+  --max-width: 72rem;
+  --cs-cyan: #0097b2;
+  --cs-amber: #e69902;
+  --cs-coral: #ef5b5b;
+  --muted: #6e737c;
+  --body: #555555;
+  --border: #e5e7eb;
+}
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+h2.variant-heading {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin: 3rem 0 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+h2.variant-heading:first-of-type {
+  margin-top: 0;
+  border-top: none;
+}
+.cs-quote {
+  font-style: italic;
+  color: #555;
+  max-width: 42rem;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+  border-left: 3px solid var(--cs-coral);
+  padding-left: 1.25rem;
+  font-size: 0.9375rem;
+}
+
+/* ====== VARIANT A — Light cards (original) ====== */
+.stats-grid-a {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+.stat-card-a {
+  background: #f2f2f4;
+  border-radius: 12px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.stat-card-a .stat-num {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.stat-card-a .stat-num.cyan { color: var(--cs-cyan); }
+.stat-card-a .stat-num.amber { color: var(--cs-amber); }
+.stat-card-a .stat-num.coral { color: var(--cs-coral); }
+.stat-card-a .stat-desc {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--body);
+}
+
+/* ====== VARIANT B — Border cards + accent top bar ====== */
+.stats-grid-b {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+.stat-card-b {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card-b .accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+.stat-card-b .accent-bar.cyan { background: var(--cs-cyan); }
+.stat-card-b .accent-bar.amber { background: var(--cs-amber); }
+.stat-card-b .accent-bar.coral { background: var(--cs-coral); }
+.stat-card-b .stat-num {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.stat-card-b .stat-num.cyan { color: var(--cs-cyan); }
+.stat-card-b .stat-num.amber { color: var(--cs-amber); }
+.stat-card-b .stat-num.coral { color: var(--cs-coral); }
+.stat-card-b .stat-desc {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--body);
+}
+
+/* ====== VARIANT C — Clean inline (no cards) ====== */
+.stats-grid-c {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+.stat-card-c {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0;
+}
+.stat-card-c .stat-num {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.stat-card-c .stat-num.cyan { color: var(--cs-cyan); }
+.stat-card-c .stat-num.amber { color: var(--cs-amber); }
+.stat-card-c .stat-num.coral { color: var(--cs-coral); }
+.stat-card-c .stat-desc {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--body);
+}
+
+/* Note: color context label */
+.color-context {
+  font-size: 0.7rem;
+  color: #999;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .stats-grid-a, .stats-grid-b, .stats-grid-c { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .stats-grid-a, .stats-grid-b, .stats-grid-c { grid-template-columns: 1fr; }
+  body { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1 style="font-family:'Montserrat';font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;">Shrnutí v číslech — 3 varianty</h1>
+  <p style="font-size:0.875rem;color:var(--muted);margin-bottom:2rem;">Každá varianta ukazuje všechny 3 barevné kontexty (cyan = EdTech, amber = VR→AR, coral = Kultura).</p>
+
+  <!-- ============================================= -->
+  <h2 class="variant-heading">🅰️ Varianta A — Light cards (původní návrh)</h2>
+  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Světle šedé pozadí (#f2f2f4), zaoblené rohy, žádný border. Stejný styl jako stávající Reflection box.</p>
+
+  <!-- Coral context (Kultura v kurzu) -->
+  <div class="color-context">🟡 Korálová — Kultura v kurzu</div>
+  <div class="cs-quote" style="border-left-color:var(--cs-coral);">„Když zadání zní: „Chceme se stát lídrem ve vzdělávání knihovníků!“ Nevíme jak, nevíme za kolik a neumíme to...“</div>
+  <div class="stats-grid-a">
+    <div class="stat-card-a"><div class="stat-num coral">3,75 mil. Kč</div><div class="stat-desc">výše obhájeného a uřízeného rozpočtu.</div></div>
+    <div class="stat-card-a"><div class="stat-num coral">735</div><div class="stat-desc">zapojených profesionálů (137 % splnění KPI).</div></div>
+    <div class="stat-card-a"><div class="stat-num coral">68</div><div class="stat-desc">realizovaných L&amp;D aktivit s 50+ garanty.</div></div>
+    <div class="stat-card-a"><div class="stat-num coral">4,8 / 5</div><div class="stat-desc">průměrné hodnocení spokojenosti uživatelů.</div></div>
+  </div>
+
+  <!-- Cyan context (EdTech SaaS) -->
+  <div class="color-context">🔵 Cyan — EdTech SaaS</div>
+  <div class="stats-grid-a">
+    <div class="stat-card-a"><div class="stat-num cyan">5 let</div><div class="stat-desc">řízení vývoje produktového obsahu.</div></div>
+    <div class="stat-card-a"><div class="stat-num cyan">10+ mil. Kč</div><div class="stat-desc">hodnota produkce doručené 800+ školám.</div></div>
+    <div class="stat-card-a"><div class="stat-num cyan">15</div><div class="stat-desc">kol UX výzkumu k validaci pivotu.</div></div>
+    <div class="stat-card-a"><div class="stat-num cyan">Top 7</div><div class="stat-desc">EdTech projektů v EU (IMPACT EdTech).</div></div>
+  </div>
+
+  <!-- Amber context (VR→AR) -->
+  <div class="color-context">🟠 Amber — VR→AR</div>
+  <div class="stats-grid-a">
+    <div class="stat-card-a"><div class="stat-num amber">6 měsíců</div><div class="stat-desc">time-to-market od výzkumu po dodání.</div></div>
+    <div class="stat-card-a"><div class="stat-num amber">168</div><div class="stat-desc">AR scénářů doručeno vývojářům.</div></div>
+    <div class="stat-card-a"><div class="stat-num amber">5</div><div class="stat-desc">prototypů otestováno s uživateli.</div></div>
+    <div class="stat-card-a"><div class="stat-num amber">50%</div><div class="stat-desc">úspora produkčního času díky AI.</div></div>
+  </div>
+
+  <!-- ============================================= -->
+  <h2 class="variant-heading">🅱️ Varianta B — Border cards + accent bar</h2>
+  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Bílé pozadí, jemný border, barevná linka nahoře. Vizuálně oddělenější, lehce "kartičkový" vzhled.</p>
+
+  <div class="color-context">🟡 Korálová — Kultura v kurzu</div>
+  <div class="stats-grid-b">
+    <div class="stat-card-b"><div class="accent-bar coral"></div><div class="stat-num coral">3,75 mil. Kč</div><div class="stat-desc">výše obhájeného a uřízeného rozpočtu.</div></div>
+    <div class="stat-card-b"><div class="accent-bar coral"></div><div class="stat-num coral">735</div><div class="stat-desc">zapojených profesionálů (137 % splnění KPI).</div></div>
+    <div class="stat-card-b"><div class="accent-bar coral"></div><div class="stat-num coral">68</div><div class="stat-desc">realizovaných L&amp;D aktivit s 50+ garanty.</div></div>
+    <div class="stat-card-b"><div class="accent-bar coral"></div><div class="stat-num coral">4,8 / 5</div><div class="stat-desc">průměrné hodnocení spokojenosti uživatelů.</div></div>
+  </div>
+
+  <div class="color-context">🔵 Cyan — EdTech SaaS</div>
+  <div class="stats-grid-b">
+    <div class="stat-card-b"><div class="accent-bar cyan"></div><div class="stat-num cyan">5 let</div><div class="stat-desc">řízení vývoje produktového obsahu.</div></div>
+    <div class="stat-card-b"><div class="accent-bar cyan"></div><div class="stat-num cyan">10+ mil. Kč</div><div class="stat-desc">hodnota produkce doručené 800+ školám.</div></div>
+    <div class="stat-card-b"><div class="accent-bar cyan"></div><div class="stat-num cyan">15</div><div class="stat-desc">kol UX výzkumu k validaci pivotu.</div></div>
+    <div class="stat-card-b"><div class="accent-bar cyan"></div><div class="stat-num cyan">Top 7</div><div class="stat-desc">EdTech projektů v EU (IMPACT EdTech).</div></div>
+  </div>
+
+  <div class="color-context">🟠 Amber — VR→AR</div>
+  <div class="stats-grid-b">
+    <div class="stat-card-b"><div class="accent-bar amber"></div><div class="stat-num amber">6 měsíců</div><div class="stat-desc">time-to-market od výzkumu po dodání.</div></div>
+    <div class="stat-card-b"><div class="accent-bar amber"></div><div class="stat-num amber">168</div><div class="stat-desc">AR scénářů doručeno vývojářům.</div></div>
+    <div class="stat-card-b"><div class="accent-bar amber"></div><div class="stat-num amber">5</div><div class="stat-desc">prototypů otestováno s uživateli.</div></div>
+    <div class="stat-card-b"><div class="accent-bar amber"></div><div class="stat-num amber">50%</div><div class="stat-desc">úspora produkčního času díky AI.</div></div>
+  </div>
+
+  <!-- ============================================= -->
+  <h2 class="variant-heading">🅲 Varianta C — Clean inline (bez karet)</h2>
+  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Žádné pozadí, žádný border. Jen velké číslo a popis v mřížce. Nejméně vizuálního weightu, maximální čistota.</p>
+
+  <div class="color-context">🟡 Korálová — Kultura v kurzu</div>
+  <div class="stats-grid-c">
+    <div class="stat-card-c"><div class="stat-num coral">3,75 mil. Kč</div><div class="stat-desc">výše obhájeného a uřízeného rozpočtu.</div></div>
+    <div class="stat-card-c"><div class="stat-num coral">735</div><div class="stat-desc">zapojených profesionálů (137 % splnění KPI).</div></div>
+    <div class="stat-card-c"><div class="stat-num coral">68</div><div class="stat-desc">realizovaných L&amp;D aktivit s 50+ garanty.</div></div>
+    <div class="stat-card-c"><div class="stat-num coral">4,8 / 5</div><div class="stat-desc">průměrné hodnocení spokojenosti uživatelů.</div></div>
+  </div>
+
+  <div class="color-context">🔵 Cyan — EdTech SaaS</div>
+  <div class="stats-grid-c">
+    <div class="stat-card-c"><div class="stat-num cyan">5 let</div><div class="stat-desc">řízení vývoje produktového obsahu.</div></div>
+    <div class="stat-card-c"><div class="stat-num cyan">10+ mil. Kč</div><div class="stat-desc">hodnota produkce doručené 800+ školám.</div></div>
+    <div class="stat-card-c"><div class="stat-num cyan">15</div><div class="stat-desc">kol UX výzkumu k validaci pivotu.</div></div>
+    <div class="stat-card-c"><div class="stat-num cyan">Top 7</div><div class="stat-desc">EdTech projektů v EU (IMPACT EdTech).</div></div>
+  </div>
+
+  <div class="color-context">🟠 Amber — VR→AR</div>
+  <div class="stats-grid-c">
+    <div class="stat-card-c"><div class="stat-num amber">6 měsíců</div><div class="stat-desc">time-to-market od výzkumu po dodání.</div></div>
+    <div class="stat-card-c"><div class="stat-num amber">168</div><div class="stat-desc">AR scénářů doručeno vývojářům.</div></div>
+    <div class="stat-card-c"><div class="stat-num amber">5</div><div class="stat-desc">prototypů otestováno s uživateli.</div></div>
+    <div class="stat-card-c"><div class="stat-num amber">50%</div><div class="stat-desc">úspora produkčního času díky AI.</div></div>
+  </div>
+
+  <!-- ============================================= -->
+  <h2 style="font-family:'Montserrat';font-size:0.85rem;font-weight:700;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);">📊 Srovnání</h2>
+
+  <table style="width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.85rem;">
+    <tr style="border-bottom:1px solid var(--border);">
+      <th style="text-align:left;padding:8px 12px;font-weight:600;">Dimenze</th>
+      <th style="text-align:left;padding:8px 12px;">🅰️ Light cards</th>
+      <th style="text-align:left;padding:8px 12px;">🅱️ Border + accent</th>
+      <th style="text-align:left;padding:8px 12px;">🅲 Clean inline</th>
+    </tr>
+    <tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:8px 12px;font-weight:500;">Vizuální váha</td>
+      <td style="padding:8px 12px;">Střední</td>
+      <td style="padding:8px 12px;">Střední až vyšší</td>
+      <td style="padding:8px 12px;">Nízká</td>
+    </tr>
+    <tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:8px 12px;font-weight:500;">Oddělení od textu</td>
+      <td style="padding:8px 12px;">✅ Dobré (šedé pozadí)</td>
+      <td style="padding:8px 12px;">✅✅ Nejlepší</td>
+      <td style="padding:8px 12px;">⚠️ Slabší</td>
+    </tr>
+    <tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:8px 12px;font-weight:500;">Konzistence s webem</td>
+      <td style="padding:8px 12px;">✅✅ (stejné jako Reflection)</td>
+      <td style="padding:8px 12px;">✅ (odpovídá borderům webu)</td>
+      <td style="padding:8px 12px;">⚠️ (není použit jinde)</td>
+    </tr>
+    <tr>
+      <td style="padding:8px 12px;font-weight:500;">Doporučení</td>
+      <td style="padding:8px 12px;color:var(--cs-cyan);font-weight:600;">Můj tip ⭐</td>
+      <td style="padding:8px 12px;">Dobrá alternativa</td>
+      <td style="padding:8px 12px;">Riziko splynutí</td>
+    </tr>
+  </table>
+
+</div>
+
+</body>
+</html>
