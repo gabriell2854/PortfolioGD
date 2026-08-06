@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study: Education Product Owner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #faf9fb;
+    --bg-callout: #f3f1f6;
+    --bg-email: #fbfaf7;
+    --text: #1c1c1f;
+    --text-soft: #6b6b74;
+    --text-faint: #9a9aa1;
+    --border: #e9e8ec;
+    --pink: #e4007c;
+    --violet: #8a4fe0;
+    --blue: #2f6fed;
+    --gradient: linear-gradient(90deg, var(--pink) 0%, var(--violet) 55%, var(--blue) 100%);
+    --font-display: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+
+  .sidebar {
+    width: 272px;
+    flex-shrink: 0;
+    background: var(--bg-soft);
+    border-right: 1px solid var(--border);
+    padding: 44px 28px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+
+  .sidebar-title {
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 4px;
+  }
+
+  .sidebar-sub {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin: 0 0 4px;
+  }
+
+  .sidebar-bar {
+    height: 3px;
+    width: 40px;
+    border-radius: 2px;
+    background: var(--gradient);
+    margin: 20px 0 32px;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .nav a {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text);
+    padding: 10px 10px;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+    font-size: 14px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .nav a:hover {
+    background: rgba(0,0,0,0.03);
+  }
+
+  .nav a.active {
+    border-left: 3px solid transparent;
+    border-image: var(--gradient) 1;
+    background: rgba(0,0,0,0.03);
+  }
+
+  .nav a.active .nav-num {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nav-num {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--text-faint);
+    flex-shrink: 0;
+    width: 20px;
+  }
+
+  .nav-label {
+    font-weight: 500;
+  }
+
+  .sidebar-footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-faint);
+    line-height: 1.6;
+  }
+
+  /* ---------- Main content ---------- */
+
+  .content {
+    flex: 1;
+    min-width: 0;
+    padding: 72px 56px 140px;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .doc-header {
+    margin-bottom: 64px;
+  }
+
+  .doc-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+    margin: 0 0 14px;
+  }
+
+  .doc-title {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 16px;
+  }
+
+  .doc-meta {
+    font-size: 14px;
+    color: var(--text-soft);
+  }
+
+  .doc-meta div { margin-bottom: 2px; }
+
+  section.part {
+    margin-bottom: 88px;
+    scroll-margin-top: 40px;
+  }
+
+  .part-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+
+  .part-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 18px;
+  }
+
+  .part-bar {
+    height: 3px;
+    width: 56px;
+    border-radius: 2px;
+    background: var(--gradient);
+    margin-bottom: 32px;
+  }
+
+  /* ---------- Callouts / toggles ---------- */
+
+  .callout {
+    background: var(--bg-callout);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 28px;
+  }
+
+  .callout p, .callout li {
+    color: var(--text-soft);
+    font-size: 15px;
+  }
+
+  details.toggle {
+    background: var(--bg-callout);
+    border-radius: 14px;
+    padding: 4px 26px;
+    margin-bottom: 28px;
+  }
+
+  details.toggle summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  details.toggle summary::-webkit-details-marker { display: none; }
+
+  .chevron {
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--text-faint);
+    border-bottom: 2px solid var(--text-faint);
+    transform: rotate(-45deg);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  details[open] .chevron { transform: rotate(45deg); }
+
+  .toggle-body {
+    padding: 4px 0 24px;
+    font-size: 15px;
+    color: var(--text-soft);
+  }
+
+  .toggle-body img {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin: 12px 0 8px;
+  }
+
+  .img-caption {
+    font-size: 12px;
+    color: var(--text-faint);
+    margin: 0 0 8px;
+  }
+
+  /* ---------- Zadání accordion ---------- */
+
+  details.toggle.qa-toggle {
+    margin-bottom: 24px;
+  }
+
+  details.toggle.qa-toggle summary {
+    align-items: flex-start;
+    padding: 16px 0;
+  }
+
+  .qa-toggle-head {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  details.toggle.qa-toggle .chevron {
+    margin-top: 6px;
+  }
+
+  details.toggle.qa-toggle .q-text {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* nested sub-toggles inside answer blocks */
+
+  details.sub-toggle {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2px 20px;
+    margin-bottom: 12px;
+    background: var(--bg);
+  }
+
+  details.sub-toggle summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  details.sub-toggle summary::-webkit-details-marker { display: none; }
+
+  .sub-toggle-body {
+    padding: 0 0 18px;
+    font-size: 14.5px;
+    color: var(--text-soft);
+  }
+
+  .sub-num {
+    font-family: var(--font-display);
+    color: var(--text-faint);
+    margin-right: 10px;
+  }
+
+  /* ---------- Q&A blocks ---------- */
+
+  .qa {
+    margin-bottom: 40px;
+  }
+
+  .pill {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .pill-q {
+    background: var(--bg-callout);
+    color: var(--text-soft);
+  }
+
+  .pill-a {
+    background: var(--gradient);
+    color: #fff;
+  }
+
+  .q-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--text);
+    margin: 0 0 22px;
+  }
+
+  .a-block {
+    border-left: 3px solid transparent;
+    border-image: var(--gradient) 1;
+    padding-left: 22px;
+  }
+
+  .a-block p, .a-block li { font-size: 15.5px; }
+
+  .a-block h4 {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+
+  .a-block .item {
+    margin-bottom: 16px;
+  }
+
+  .a-block .item h4 {
+    display: inline;
+  }
+
+  .a-block .item p {
+    margin: 4px 0 0;
+    color: var(--text-soft);
+  }
+
+  p { margin: 0 0 14px; }
+  ul, ol { margin: 0 0 14px; padding-left: 20px; }
+  li { margin-bottom: 8px; }
+
+  strong { font-weight: 600; color: var(--text); }
+
+  /* ---------- Special blocks ---------- */
+
+  blockquote.founder-quote {
+    margin: 0 0 22px;
+    padding: 0;
+    background: none;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-soft);
+  }
+
+  /* ---------- Part 1 typography unification (grey only, size/weight for hierarchy) ---------- */
+
+  #produkt .a-block,
+  #produkt .a-block p,
+  #produkt .a-block li {
+    color: var(--text-soft);
+  }
+
+  #produkt .a-block h4,
+  #produkt .sub-toggle-body h4 {
+    color: var(--text-soft);
+  }
+
+  #produkt .a-block strong,
+  #produkt .sub-toggle-body strong {
+    color: var(--text-soft);
+  }
+
+  blockquote.feedback {
+    margin: 16px 0;
+    padding: 18px 22px;
+    background: var(--bg);
+    border-radius: 12px;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text-soft);
+    border-left: 3px solid var(--text-faint);
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0 8px;
+  }
+
+  .stat-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 14px;
+  }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .stat-label {
+    font-size: 11.5px;
+    color: var(--text-soft);
+  }
+
+  .highlight-line {
+    background: var(--bg);
+    border-left: 3px solid transparent;
+    border-image: var(--gradient) 1;
+    padding: 4px 0 4px 18px;
+    font-size: 15px;
+    margin: 18px 0;
+    color: var(--text);
+  }
+
+  .email-card {
+    background: var(--bg-email);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 28px;
+    margin: 18px 0 28px;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .email-card p { margin-bottom: 14px; }
+  .email-card p:last-child { margin-bottom: 0; }
+
+  .action-step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .action-letter {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    color: transparent;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    flex-shrink: 0;
+    width: 22px;
+  }
+
+  .action-step-body h4 {
+    margin: 0 0 4px;
+    font-size: 14.5px;
+    font-weight: 700;
+  }
+
+  .action-step-body p {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 14.5px;
+  }
+
+  footer.doc-footer {
+    margin-top: 100px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--text-faint);
+  }
+
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 880px) {
+    .layout { flex-direction: column; }
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: static;
+      padding: 24px 24px 18px;
+    }
+    .sidebar-footer { display: none; }
+    .nav { flex-direction: row; overflow-x: auto; gap: 6px; }
+    .nav a { padding: 8px 12px; white-space: nowrap; }
+    .content { padding: 48px 24px 100px; }
+    .doc-title { font-size: 30px; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-eyebrow">Case study</div>
+    <div class="sidebar-title">Education Product Owner</div>
+    <div class="sidebar-sub">Czechitas</div>
+    <div class="sidebar-bar"></div>
+
+    <nav class="nav">
+      <a href="#produkt" data-target="produkt"><span class="nav-num">01</span><span class="nav-label">Produktová strategie</span></a>
+      <a href="#riziko" data-target="riziko"><span class="nav-num">02</span><span class="nav-label">Analýza rizik kurzu</span></a>
+      <a href="#komunikace" data-target="komunikace"><span class="nav-num">03</span><span class="nav-label">Komunikace</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      Gabriela Divišová<br>
+      Learning Experience Designer &amp; Program Manager
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <header class="doc-header">
+      <div class="doc-eyebrow">Case study, 1. kolo výběrového řízení</div>
+      <h1 class="doc-title">Education Product Owner</h1>
+      <div class="doc-meta">
+        <div>Gabriela Divišová</div>
+        <div>Czechitas</div>
+      </div>
+    </header>
+
+    <!-- ============ PART 1 ============ -->
+    <section class="part" id="produkt">
+      <div class="part-eyebrow">Část 01</div>
+      <h2 class="part-title">Produktová strategie</h2>
+      <div class="part-bar"></div>
+
+      <details class="toggle">
+        <summary>Kontext zadání<span class="chevron"></span></summary>
+        <div class="toggle-body">
+          <p>Zadání se týká části portfolia zaměřené na datovou analýzu. Úkolem není dokonalá analýza ani graficky propracovaná prezentace, ale způsob uvažování, prioritizace a schopnost rozhodnout se s omezenými informacemi.</p>
+          <ul>
+            <li>O oblast datové analýzy je obecně vysoký zájem, je to vidět na heat mapě webu i na konverzi reklamy.</li>
+            <li>Jen 12 % absolventek úvodního webináře pokračuje do některého placeného kurzu.</li>
+            <li>U SQL kurzu účastnice často uvádějí příliš rychlé tempo a nedostatek praktického procvičování.</li>
+            <li>Datová akademie má vysokou naplněnost, ale je produkčně i lektorsky velmi náročná, a je proto finančně ztrátová.</li>
+            <li>Část zájemkyň hledá především praktické dovednosti použitelné v současné práci, nikoliv změnu kariéry.</li>
+            <li>Na příští kvartál je možné vyvinout maximálně jeden nový produkt, nebo provést větší redesign jednoho stávajícího produktu.</li>
+          </ul>
+          <p class="img-caption">Heat mapa zájmu o portfolio datové analýzy</p>
+          <img src="data:image/png;base64,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TS9duoTmoYgimWzNmjWrHBaTIrQtW7bEpOzOJciVK9fVq1cPHz6MiBKyUOeXX37JmDHj1q1b/26NoihKhBIFJNNO586dyWzclv9NkSLF/PnzpRyRs/+asWHz5s246cuXL9tvzJK2FixYUBTu6NGj6DErS5cuxdGbG7MOySxdujSCjUb27t1bfgiTj/LL7I8ePSpfvvyAAQOkso+BnZcsWSLr2JD0XWyIfGbOnNm8Cks8gYn69evntn6UGNlDSt1W/p0uXbogJdPPz8/sTu7OpkOHDiHMJP3du3encPz48Rjc80cZFUVRIoooIJkkkXhh8sL27dvny5evdu3absv/olj2e6GImaw8e/Zs9+7dZIFdunTB/6ZNm/bixYt2yeQj2erq1atZHzFihNwGDFkyCxcuTG5apkwZMldzliZNmjx//pzEiJa4XC4p9zGws+R8Qp06dcTOBCglS5a0P98locfarAwZMsRsQvBIUoOUTH9/f/PvK1wRNu3atcttKW7evHlFg0ePHi0VFEVRIgORXTIRpCxZstStW3fmzJlr165t2LChkUzJS0xNceX46Fq1ahUoUAA3TSY0bty4jBkzOiQTnevYsWPjxo3v3LlTokQJ2T1kyYwRI0aDBg1ImObOnSuFsGHDBo6MllerVs084fMxHK//GMkkInFIZrt27bCD21JTwguSb/fL7DNIybS/UWWXTC5B/vz59+3bR8kvv/wiFRRFUSIDkV0yO3ToQO4i90KhadOmIUvmxo0b06dPb76yYOXKlX5+fg7JBNLT3LlzL1iwIFeuXFKybNkySoKTTJSV/BLZ5uBHjhyRcuR5ypQpxYoV+/bbb6XE9whOMjEsocylS5eknIihUqVKXbt2dVuv9mTPnv33339n/erVq6y/lmRC//79OUu9evXMdVcURYkMRHbJJHcpV66c3A7dvHlz6tSpQ5ZMMr9UqVKRm7J+5cqV8uXLs4unZD58+LBKlSr58uX79NNPpWTTpk2Iq5HDIF//4SBt27YtXry4vLUL2bJlI6O9fPmyfPQ9gpPMW7duFS1atG/fvoglWft3331n7k6fP38eswwdOvTp06ejR48mQX9dyfzpp58yZ868YsUK+agoihJJiOySefLkyYIFC6ZIkSJDhgyIHM63bt267uAlEy/cpk2bBAkSkAPhuKdNm0YW6CmZMHv27Dhx4iCx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" alt="Heat mapa portfolia datové analýzy">
+        </div>
+      </details>
+
+      <details class="toggle qa-toggle">
+        <summary>
+          <span class="qa-toggle-head">
+            <span class="pill pill-q">Zadání</span>
+            <span class="q-text">Máte všechny dostupné informace a data? Jsou data, která byste pro rozhodování chtěla mít k dispozici, nebo sledovat déle v čase?</span>
+          </span>
+          <span class="chevron"></span>
+        </summary>
+      </details>
+
+      <div class="qa">
+        <span class="pill pill-a">Řešení</span>
+        <div class="a-block">
+          <div class="item">
+            <h4>Ekonomika a náklady</h4>
+            <p>Potřebuji přesný <strong>rozpad nákladů Datové akademie</strong>, abych věděla, proč je ztrátová i při plné kapacitě. K tomu potřebuji znát <strong>celkovou celoživotní hodnotu studentky (CLV)</strong> v komunitě Czechitas, tedy přechody na další kurzy, abych dokázala správně vyhodnotit dlouhodobou ekonomiku a návratnost jednoho běhu.</p>
+          </div>
+          <div class="item">
+            <h4>Chování studentek</h4>
+            <p>Analýza <strong>kritických bodů</strong>, tedy ve které lekci přesně studentky nejčastěji odpadávají u SQL kurzu i u Akademie. Zároveň potřebuji zmapovat chování v celém trychtýři: proč odchází <strong>88 %</strong> z úvodního webináře (ověřit <strong>hypotézu cenového šoku</strong>, tedy skoku ze 490 Kč na 3 990 Kč a více, versus <strong>hypotézu ochutnávačů</strong>, tedy účastnic, které chtěly téma jen vyzkoušet bez hlubšího zájmu, a tím zkreslují data o konverzi), proč nakupuje úspěšných <strong>12 %</strong> a jak se tyto konverze vyvíjejí v čase po kvartálech.</p>
+          </div>
+          <div class="item">
+            <h4>Profily a očekávání studentek</h4>
+            <p>Detailní znalost person, jejich oboru a motivace, tedy zda jde o <strong>změnu kariéry</strong>, nebo <strong>zlepšení v současné práci</strong>, a porovnání očekávání s realitou. To umožní lépe odlišit vážné zájemkyně od ochutnávačů už na vstupu a přizpůsobit metodiku, tempo a náročnost kurzů reálnému publiku.</p>
+          </div>
+          <div class="item">
+            <h4>B2B potenciál</h4>
+            <p>Poměr studentek, které si kurzy platí samy, vůči těm, kterým to hradí <strong>zaměstnavatel jako firemní vzdělávání</strong>. Pokud je podíl firemních plátců vysoký, otevírá to prostor pro <strong>zvýšení cen</strong> a efektivnější balíčkování firemního vzdělávání.</p>
+          </div>
+        </div>
+      </div>
+
+      <details class="toggle qa-toggle">
+        <summary>
+          <span class="qa-toggle-head">
+            <span class="pill pill-q">Zadání</span>
+            <span class="q-text">Kam portfolio posunout? Jakou změnu byste navrhla a proč?</span>
+          </span>
+          <span class="chevron"></span>
+        </summary>
+      </details>
+
+      <div class="qa">
+        <span class="pill pill-a">Řešení</span>
+        <div class="a-block">
+          <blockquote class="founder-quote">
+            Mým prvním návrhem bylo <strong>zavedení nového úvodního kurzu</strong> a <strong>zásadní redesign Datové akademie</strong> s cílem <strong>snížit náklady</strong> a rozmělnit téma do menších modulů. Při analýze jsem se ale podívala i na vaše <strong>aktuální portfolio</strong> a zjistila jsem, že přesně tento směr už jste sami zavedli, tedy ochutnávka zdarma, placený úvod s vlastní hodnotou a modulární dekonstrukce kurzů. Na tento základ jsem proto navázala a posunula portfolio do další logické fáze: <strong>AI-First redesignu</strong> obsahu a zavedení <strong>AI asistenta</strong> pro výuku na pilotním kurzu SQL pro začátečnice.
+          </blockquote>
+
+          <details class="sub-toggle">
+            <summary><span><span class="sub-num">01</span>Jaký problém a pro koho řešíme</span><span class="chevron"></span></summary>
+            <div class="sub-toggle-body">
+              <p><strong>Cílová skupina:</strong> studentky modulárních kurzů SQL, jak kariérní měničky, tak profesionálky z praxe, které potřebují SQL pro upskilling.</p>
+              <p><strong>Problém z pohledu studentky:</strong> SQL kurzy jsou vnímány jako příliš rychlé, s nedostatkem času na individuální procvičování a okamžitou zpětnou vazbu při psaní kódu. Když studentka narazí na chybu doma při samostudiu, nemá se koho zeptat.</p>
+              <p><strong>Problém z pohledu organizace:</strong> lidští lektoři a koučové jsou nejdražší nákladovou položkou a jejich kapacita limituje škálovatelnost kurzu.</p>
+            </div>
+          </details>
+
+          <details class="sub-toggle">
+            <summary><span><span class="sub-num">02</span>Navrhované řešení a proč má přednost</span><span class="chevron"></span></summary>
+            <div class="sub-toggle-body">
+              <p>Navrhuji redesignovat obsah a metodiku výuky SQL na princip AI-Assistant analytik / AI-First: přesunout opakovatelnou teorii a tvorbu syntaxe do samostudia (LMS/LXP) a implementovat AI mentora jako prvního pomocníka pro samostudium, který funguje 24/7 jako trpělivý partner.</p>
+              <p><strong>Tři pilíře redesignu</strong></p>
+              <div class="item">
+                <h4>1. Přesun teorie do LMS</h4>
+                <p>Asynchronní příprava. Základy syntaxe a ovládání nástrojů v krátkých mikrolekcích jako stálá knihovna. Konec pocitu příliš rychlého tempa, každá studentka postupuje vlastní rychlostí a kdykoliv se může vrátit.</p>
+              </div>
+              <div class="item">
+                <h4>2. AI mentor v LMS</h4>
+                <p>Osobní kouč 24/7. Okamžitá pomoc při chybách v kódu, AI neprozrazuje řešení, ale navádí sokratovou metodou. Odstranění frustrace a uvíznutí na domácích úkolech díky okamžité zpětné vazbě.</p>
+              </div>
+              <div class="item">
+                <h4>3. Redesign na AI-First</h4>
+                <p>Úspora a hodnota. Zkrácení živé výuky o 30 %, tedy přímé snížení nákladů na lektorné. Živé lekce se mění na praktické workshopy, kde lektor učí datovou logiku, nový proces AI promptování a kritickou kontrolu výstupů AI.</p>
+              </div>
+              <p><strong>Proč má přednost</strong></p>
+              <ul>
+                <li><strong>Ekonomická udržitelnost:</strong> zkrácením živé výuky o 30 % okamžitě snižujeme přímé náklady na lektorné a zvyšujeme marži kurzu.</li>
+                <li><strong>Pedagogická účinnost:</strong> AI mentor odstraňuje bariéru frustrace doma, zatímco lektor v uvolněném čase doručuje maximální hodnotu a učí studentky přemýšlet jako analytičky v éře AI.</li>
+                <li><strong>B2B a praktická hodnota:</strong> výuka postavená na AI-assisted development je přenositelná do praxe. Profesionálky získávají dovednost, která okamžitě zvyšuje jejich efektivitu v práci, což je klíčový prodejní argument pro firmy.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="sub-toggle">
+            <summary><span><span class="sub-num">03</span>Zapojení do vzdělávacího funnelu</span><span class="chevron"></span></summary>
+            <div class="sub-toggle-body">
+              <p>Pokud bude pilotní integrace AI kouče v SQL kurzu úspěšná, otevírá to následující příležitosti v celém funnelu.</p>
+              <ul>
+                <li><strong>Retenční lepidlo ve středu funnelu:</strong> SQL slouží jako most k pokročilým programům. AI kouč zmírňuje frustraci z náročné látky, zvyšuje míru dokončení kurzu a dodává studentkám sebevědomí k postupu do dalších kurzů.</li>
+                <li><strong>Podpora B2B upskillingu:</strong> profesionálkám pomáhá s aplikací nových dovedností přímo v zaměstnání i po skončení kurzu, což je pro Czechitas silným argumentem při vyjednávání s firemními klienty.</li>
+                <li><strong>Nový monetizační kanál:</strong> možnost převést asistenta do samostatného nízkonákladového předplatného pro trvalou podporu absolventek. Řešení je technologicky škálovatelné a po SQL pilotu ho lze replikovat do dalších kurzů, například Pythonu nebo Power BI.</li>
+                <li><strong>Akviziční a krizový magnet:</strong> funguje jako marketingový bonus pro rychlé zaplnění volných kapacit, například zápis do kurzu se třemi měsíci AI mentora zdarma, s nulovými dodatečnými náklady na lektory.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="sub-toggle">
+            <summary><span><span class="sub-num">04</span>Dopad na účastnici</span><span class="chevron"></span></summary>
+            <div class="sub-toggle-body">
+              <ul>
+                <li><strong>Konec technické frustrace:</strong> pokud se studentka při domácím studiu zasekne na chybě v kódu, má okamžitou pomoc 24/7. Místo pocitu zoufalství získává jistotu, že s podporou dokáže každou překážku sama vyřešit a kurz úspěšně dokončit.</li>
+                <li><strong>Učení ve vlastním tempu:</strong> rychlejší studentky mohou jít s AI asistentem dál do hloubky, pomalejší mají trpělivou podporu bez pocitu, že na lekcích zdržují zbytek skupiny.</li>
+                <li><strong>Dovednost AI-assisted development:</strong> studentky se nenaučí jen SQL syntaxi, ale osvojí si moderní způsob práce, tedy jak AI správně promptovat, nechat si od ní vysvětlit chyby a kriticky kontrolovat její výstupy. Jde o vysoce žádanou kompetenci na současném trhu práce.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="sub-toggle">
+            <summary><span><span class="sub-num">05</span>Ověření s co nejmenší investicí</span><span class="chevron"></span></summary>
+            <div class="sub-toggle-body">
+              <ul>
+                <li><strong>Průzkum:</strong> 5 až 10 rozhovorů s absolventkami o kritických místech a definice typických chyb s hlavním lektorem.</li>
+                <li><strong>Bezkódové MVP:</strong> například Custom GPT s instrukcí trpělivého SQL kouče, který nenapovídá kód, pouze navádí k chybě.</li>
+                <li><strong>Alfa test:</strong> rychlé ověření použitelnosti s komunitou dobrovolnic z řad Czechitas před nasazením do výuky.</li>
+                <li><strong>A/B test (pilot):</strong> rozdělení kurzu SQL na poloviny, s AI a bez AI, se sledováním dokončenosti úkolů a úspory času lidských koučů.</li>
+                <li><strong>Tržní validace:</strong> test ochoty platit po skončení kurzu a měření vlivu AI bonusu na konverzi přihlášek.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="sub-toggle">
+            <summary><span><span class="sub-num">06</span>Ukazatele pro rozhodnutí po pilotu</span><span class="chevron"></span></summary>
+            <div class="sub-toggle-body">
+              <ul>
+                <li><strong>Adopce a opakované využití:</strong> sledujeme, zda studentky asistenta používají dlouhodobě, nebo šlo jen o jednorázovou zvědavost.</li>
+                <li><strong>Dokončenost úkolů:</strong> porovnáváme úspěšnost odevzdávání úkolů a zvládání tempa u skupiny s AI a bez AI.</li>
+                <li><strong>Úspora času lidské podpory:</strong> sledujeme pokles rutinních a syntaktických dotazů na Discordu a Slacku.</li>
+                <li><strong>Tržní potenciál:</strong> sledujeme ochotu k předplatnému po kurzu pro praxi a vliv AI bonusu na konverzi přihlášek.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="sub-toggle">
+            <summary><span><span class="sub-num">07</span>Rizika a předpoklady</span><span class="chevron"></span></summary>
+            <div class="sub-toggle-body">
+              <ul>
+                <li><strong>Riziko zkratkovitého učení:</strong> studentky mohou AI zneužívat k tomu, aby za ně úkoly rovnou psala, místo toho, aby je učila. Řešení: pečlivé otestování systémových instrukcí pro AI, aby striktně odmítala psát hotový kód a pouze napovídala.</li>
+                <li><strong>Technická bariéra:</strong> část méně technických studentek může mít zpočátku bariéru komunikovat s AI rozhraním. Řešení: krátké desetiminutové video představení asistenta na začátku kurzu lektorem.</li>
+                <li><strong>Předpoklad ochoty lektorů:</strong> předpokládáme, že lektoři nebudou brát AI jako hrozbu, ale jako pomocníka. Řešení: zapojení klíčových lektorů do návrhu asistenta od začátku, formou spolutvorby.</li>
+              </ul>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PART 2 ============ -->
+    <section class="part" id="riziko">
+      <div class="part-eyebrow">Část 02</div>
+      <h2 class="part-title">Analýza rizik realizace kurzu</h2>
+      <div class="part-bar"></div>
+
+      <details class="toggle">
+        <summary>Kontext zadání<span class="chevron"></span></summary>
+        <div class="toggle-body">
+          <p style="margin-bottom:14px;">Za dva týdny má začít další běh kurzu <strong>Excel pro datovou analýzu</strong>. Aktuálně je přihlášeno <strong>13 účastnic</strong>.</p>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-num">25</div><div class="stat-label">Kapacita kurzu</div></div>
+            <div class="stat-card"><div class="stat-num">13</div><div class="stat-label">Přihlášeno</div></div>
+            <div class="stat-card"><div class="stat-num">3 990 Kč</div><div class="stat-label">Cena s DPH</div></div>
+            <div class="stat-card"><div class="stat-num">24 000 Kč</div><div class="stat-label">Přímé náklady</div></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="toggle qa-toggle">
+        <summary>
+          <span class="qa-toggle-head">
+            <span class="pill pill-q">Zadání</span>
+            <span class="q-text">Jak byste postupovala v řešení této situace?</span>
+          </span>
+          <span class="chevron"></span>
+        </summary>
+      </details>
+
+      <div class="qa">
+        <span class="pill pill-a">Řešení</span>
+        <div class="a-block">
+          <p>Nejprve bych ověřila <strong>ekonomiku kurzu</strong>.</p>
+          <div class="highlight-line">
+            Tržby při 13 účastnicích: <strong>51 870 Kč</strong>. Přímé náklady jsou pokryté už při <strong>7 účastnicích</strong>, což je bod zvratu z pohledu přímých nákladů.
+          </div>
+          <p>To znamená, že kurz <strong>není ztrátový</strong> z hlediska přímých nákladů. Pro finální rozhodnutí bych ale potřebovala znát ještě <strong>podíl nepřímých nákladů</strong>, <strong>cílovou marži produktu</strong>, historickou obsazenost kurzu a kolik registrací standardně přichází v posledních 14 dnech.</p>
+        </div>
+      </div>
+
+      <details class="toggle qa-toggle">
+        <summary>
+          <span class="qa-toggle-head">
+            <span class="pill pill-q">Zadání</span>
+            <span class="q-text">Jaké vidíte možnosti řešení?</span>
+          </span>
+          <span class="chevron"></span>
+        </summary>
+      </details>
+
+      <div class="qa">
+        <span class="pill pill-a">Řešení</span>
+        <div class="a-block">
+          <p>Na základě dostupných dat bych doporučila <strong>kurz realizovat</strong>.</p>
+          <p><strong>Důvody:</strong> kurz pokrývá přímé náklady, zrušení představuje <strong>reputační riziko</strong> a zvyšuje pravděpodobnost ztráty důvěry účastnic i partnerských firem, absolventky mohou pokračovat do dalších kurzů, takže jejich hodnota nekončí jedním nákupem. Neřešila bych tedy pouze ekonomiku jednoho běhu, ale i <strong>dlouhodobou hodnotu zákaznice</strong>.</p>
+
+          <p style="margin-top:24px;"><strong>Akční plán</strong><br><span style="color:var(--text-soft); font-size:14.5px;">Cíl: zvýšit obsazenost kurzu s minimálními náklady a využitím existujících kanálů.</span></p>
+
+          <div class="action-step">
+            <div class="action-letter">A</div>
+            <div class="action-step-body">
+              <h4>Aktivace vlastní komunity, nejvyšší priorita</h4>
+              <p>Využila bych kanály s historicky nejlepším dosahem a konverzí, tedy newsletter, Discord a LinkedIn. Komunikace by zdůraznila blížící se začátek kurzu a omezenou kapacitu.</p>
+            </div>
+          </div>
+          <div class="action-step">
+            <div class="action-letter">B</div>
+            <div class="action-step-body">
+              <h4>Aktivace partnerské sítě</h4>
+              <p>Oslovila bych partnerské firmy s nabídkou volných míst jako zaměstnaneckého benefitu nebo možnosti rychlého rozvoje zaměstnanců, s využitím existujících vztahů místo nákladné akvizice.</p>
+            </div>
+          </div>
+          <div class="action-step">
+            <div class="action-letter">C</div>
+            <div class="action-step-body">
+              <h4>Práce s nejteplejšími leady</h4>
+              <p>Zaměřila bych se na účastnice předchozích webinářů a zájemkyně, které již s Czechitas interagovaly. Preferovala bych zvýšení hodnoty nabídky před plošnými slevami, například bonusový webinář, studijní materiály nebo přístup do komunity.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <details class="toggle qa-toggle">
+        <summary>
+          <span class="qa-toggle-head">
+            <span class="pill pill-q">Zadání</span>
+            <span class="q-text">Jaké další informace a čísla byste pro takové rozhodnutí přinesla svému manažerovi na stůl?</span>
+          </span>
+          <span class="chevron"></span>
+        </summary>
+      </details>
+
+      <div class="qa">
+        <span class="pill pill-a">Řešení</span>
+        <div class="a-block">
+          <div class="item">
+            <h4>Celková ekonomika kurzu</h4>
+            <p>Kompletní nákladovost kurzu, nejen přímé náklady, <strong>cílová profitabilita</strong> a minimální akceptovatelná marže, finanční dopad variant realizovat, přesunout, nebo zrušit.</p>
+          </div>
+          <div class="item">
+            <h4>Historická data</h4>
+            <p>Obsazenost předchozích běhů, vývoj registrací před zahájením kurzu, zejména poslední dva týdny, <strong>konverze jednotlivých akvizičních kanálů</strong>, míra dokončení kurzu a spokojenost absolventek.</p>
+          </div>
+          <div class="item">
+            <h4>Obchodní a strategická data</h4>
+            <p>Počet aktuálních zájemkyň nebo rozpracovaných registrací, potenciál oslovení partnerských organizací, návaznost účastnic na další kurzy jako <strong>dlouhodobá hodnota zákaznice</strong>.</p>
+          </div>
+          <p style="margin-top:8px;">Na základě těchto informací bych průběžně aktualizovala predikci a vyhodnotila, zda další investice času a energie do akvizice přinese odpovídající efekt.</p>
+        </div>
+      </div>
+
+      <details class="toggle qa-toggle">
+        <summary>
+          <span class="qa-toggle-head">
+            <span class="pill pill-q">Zadání</span>
+            <span class="q-text">Jaké jsou cesty eskalace?</span>
+          </span>
+          <span class="chevron"></span>
+        </summary>
+      </details>
+
+      <div class="qa">
+        <span class="pill pill-a">Řešení</span>
+        <div class="a-block">
+          <ol>
+            <li><strong>Pokračovat</strong> v realizaci kurzu.</li>
+            <li><strong>Posílit akviziční aktivity.</strong></li>
+            <li><strong>Přesunout termín</strong>, nebo spojit běhy.</li>
+            <li>V krajním případě kurz <strong>zrušit</strong>.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PART 3 ============ -->
+    <section class="part" id="komunikace">
+      <div class="part-eyebrow">Část 03</div>
+      <h2 class="part-title">Komunikace</h2>
+      <div class="part-bar"></div>
+
+      <details class="toggle">
+        <summary>Kontext a zadání<span class="chevron"></span></summary>
+        <div class="toggle-body">
+          <p>V rámci <strong>neustálého monitoringu kvality výuky</strong> je účastnicím rozesílána žádost o zpětnou vazbu. Tuto zpětnou vazbu si mohou přečíst i lektoři a koučové, kteří lekci učili, ale anonymně, jméno účastnice vidí pouze EPO. Při pročítání se objevila následující zpětná vazba.</p>
+
+          <blockquote class="feedback">
+            Jak již bylo zmíněno výše, z lekce jsem si neodnesla prakticky nic kromě zoufalství a hodně jsem byla zklamaná a naštvaná, že jsem se nechala přemluvit, abychom dorazily prezenčně, jelikož jsem původně potřebovala lekci online, prý to bude větší zábava, no jak pro koho, vtip možná ano, ale hodně špatný. To abych si pouštěla znovu 8hodinový záznam lekce. Takže jestli z tohoto mám zpracovávat nějaký úkol, ocenila bych, kdyby to bylo alespoň náležitě vysvětleno.
+          </blockquote>
+
+          <div style="margin-top:18px;">
+            <span class="pill pill-q">Zadání</span>
+            <p class="q-text" style="margin:8px 0 0;">Jak byste k této situaci jako EPO přistoupila, jak byste ji vyřešila, a jak by mohla vypadat zpráva pro účastnici?</p>
+          </div>
+        </div>
+      </details>
+
+      <div class="qa">
+        <span class="pill pill-a">Řešení</span>
+        <div class="a-block">
+
+          <div class="item">
+            <h4>Okamžité řešení, do 24 hodin</h4>
+            <p><strong>Osobní, vysoce empatický e-mail</strong> od EPO. Přebíráme <strong>plnou odpovědnost</strong> za selhání, omlouváme se a nabízíme okamžitou lidskou kompenzaci.</p>
+          </div>
+
+          <p style="margin-top:20px; font-weight:600; font-size:14.5px;">Návrh reakce pro účastnici</p>
+          <div class="email-card">
+            <p>Dobrý den,</p>
+            <p>moc Vám děkuji za otevřenou zpětnou vazbu k uplynulé lekci. Velmi mě mrzí, že pro Vás byla návštěva kurzu zklamáním a odnesla jste si z ní pocit zoufalství. Vaše reakce je naprosto oprávněná: pokud Vám vyhovovala online forma, nátlak na prezenční účast byl z naší strany chybou, stejně jako tón, kterým byla situace na místě řešena. Za to se Vám upřímně omlouvám.</p>
+            <p>Chci Vám plně pomoci situaci napravit, abyste nemusela trávit 8 hodin sledováním záznamu. Ráda bych Vám nabídla individuální 45minutovou online konzultaci s naším hlavním koučem. Ten s Vámi projde klíčové body probrané látky a pomůže Vám s vysvětlením i přípravou domácího úkolu, abyste na něj nebyla sama.</p>
+            <p>Dejte mi prosím vědět, zda by Vám tato forma podpory vyhovovala, a případně jaké dny a časy v tomto týdnu jsou pro Vás nejvhodnější.</p>
+            <p>S pozdravem,</p>
+          </div>
+
+          <div class="item">
+            <h4>Zákaz ad-hoc hybridů</h4>
+            <p>Prezenční a online výuka vyžadují zcela odlišnou metodiku a design lekce, tyto formáty <strong>nebudeme kombinovat pro jednotlivce</strong>. Kurzy musí být jasně definované buď jako čistě prezenční, online, nebo koncipované jako <strong>blended learning</strong>, tedy kombinace samostudia a organizovaných prezenčních bootcampů.</p>
+          </div>
+
+          <div class="item">
+            <h4>Hospitace a zpětná vazba lektorovi</h4>
+            <p>S lektorem kurzu provedeme <strong>interní audit lekce</strong> ze záznamu a rozebereme jeho pedagogické a komunikační působení. Lektor nesmí vyvíjet nátlak na formu účasti studentek.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <footer class="doc-footer">
+      Case study, Education Product Owner, Czechitas. Zpracovala Gabriela Divišová.
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('.nav a');
+  const sections = Array.from(links).map(l => document.getElementById(l.dataset.target));
+
+  const setActive = (id) => {
+    links.forEach(l => l.classList.toggle('active', l.dataset.target === id));
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setActive(entry.target.id);
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => { if (s) observer.observe(s); });
+  setActive('produkt');
+</script>
+
+</body>
+</html>
